@@ -1,4 +1,12 @@
 @import 'bootstrap/dist/css/bootstrap.min.css';
+/* Custom Spotify Color Palette */
+:root {
+  --color-primary: #1DB954; /* Spotify Green */
+  --color-secondary: #191414; /* Dark Green */
+  --color-tertiary: #B3D99C; /* Light Green */
+  --color-quaternary: #000000; /* Black */
+  --color-quinary: #FFFFFF; /* White */
+}
 
 /* :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
