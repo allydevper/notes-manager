@@ -3,11 +3,11 @@ import './App.css';
 
 function App() {
   const [notes, setNotes] = useState([
-    { id: 1, content: 'Buy groceries' },
-    { id: 2, content: 'Read a book' },
-    { id: 3, content: 'Go for a run' },
-    { id: 4, content: 'Finish project report' },
-    { id: 5, content: 'Call mom' }
+    { id: 1, content: 'Buy groceries', date: new Date().toLocaleString() },
+    { id: 2, content: 'Read a book', date: new Date().toLocaleString() },
+    { id: 3, content: 'Go for a run', date: new Date().toLocaleString() },
+    { id: 4, content: 'Finish project report', date: new Date().toLocaleString() },
+    { id: 5, content: 'Call mom', date: new Date().toLocaleString() }
   ]);
   const [selectedNote, setSelectedNote] = useState(null);
   const [filter, setFilter] = useState('');
@@ -31,13 +31,10 @@ function App() {
         <div className="note-list">
           {filteredNotes.map((note, index) => (
             <div key={index} className={`note-item ${selectedNote === index ? 'selected' : ''}`} onClick={() => setSelectedNote(index)}>
-              {note.content}
+              <div className="note-title">{note.content}</div>
+              <div className="note-date">{note.date}</div>
             </div>
           ))}
-          {/* <div class="note-item selected">
-            <div class="note-title">The Ultimate Advice</div>
-            <div class="note-date">3:04 AM</div>
-          </div> */}
         </div>
       </div>
       <div className="main-content">
