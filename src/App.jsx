@@ -31,35 +31,34 @@ function App() {
         <div className="note-list">
           {filteredNotes.map((note, index) => (
             <div key={index} className={`note-item ${selectedNote === index ? 'selected' : ''}`} onClick={() => setSelectedNote(index)}>
-              <div className="note-title">{note.content}</div>
+              <div className="note-title">{note.content.split('\n')[0]}</div>
               <div className="note-date">{note.date}</div>
             </div>
           ))}
         </div>
       </div>
       <div className="main-content">
-        <div className="header mb-3">
+        <div className="header mb-3 d-flex justify-content-between">
           <button className="btn button-success me-2" onClick={handleAddNote}>Crear Nota</button>
-          <button className="btn button-danger" onClick={handleDeleteNote}>Eliminar Nota</button>
+          {
+            selectedNote !== null && (
+              <button className="btn button-danger" onClick={handleDeleteNote}>Eliminar Nota</button>
+            )
+          }
         </div>
-        <div className="note-header">
-          <h1>The Ultimate Advice</h1>
-          <div className="note-date">January 2, 2016, 3:04 AM</div>
-        </div>
-        <div className="note-body">
+        <div className="note-body" style={{ flexGrow: 1 }}>
           {selectedNote !== null && (
-            <div>
-              <textarea
-                className="form-control"
-                placeholder="Contenido de la nota"
-                value={notes[selectedNote].content}
-                onChange={(e) => {
-                  const updatedNotes = [...notes];
-                  updatedNotes[selectedNote].content = e.target.value;
-                  setNotes(updatedNotes);
-                }}
-              />
-            </div>
+            <textarea
+              className="form-control"
+              placeholder="Contenido de la nota"
+              value={notes[selectedNote].content}
+              onChange={(e) => {
+                const updatedNotes = [...notes];
+                updatedNotes[selectedNote].content = e.target.value;
+                setNotes(updatedNotes);
+              }}
+              style={{ height: '100%', resize: 'none', backgroundColor: '#181818', color: 'white' }}
+            />
           )}
         </div>
       </div>
