@@ -39,8 +39,8 @@ function App() {
       </div>
       <div className="main-content">
         <div className="header mb-3">
-          <button className="btn btn-primary me-2" onClick={handleAddNote}>Crear Nota</button>
-          <button className="btn btn-danger" onClick={handleDeleteNote}>Eliminar Nota</button>
+          <button className="btn button-success me-2" onClick={handleAddNote}>Crear Nota</button>
+          <button className="btn button-danger" onClick={handleDeleteNote}>Eliminar Nota</button>
         </div>
         <div className="note-header">
           <h1>The Ultimate Advice</h1>

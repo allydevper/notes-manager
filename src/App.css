@@ -1,3 +1,7 @@
+:root {
+  --color-success: #1DB954;
+}
+
 body {
   margin: 0;
   font-family: 'Helvetica Neue', Arial, sans-serif;
@@ -49,7 +53,7 @@ body {
   color: #fff;
 }
 
-.note-item.selected > .note-date{
+.note-item.selected>.note-date {
   color: #fbfbfb;
 }
 
@@ -86,18 +90,44 @@ body {
   font-size: 14px;
 }
 
-.button {
-  background: none;
-  border: none;
-  color: #b3b3b3;
-  cursor: pointer;
-}
-
-.button:hover {
+.button-success {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
   color: #fff;
+  background-color: #1db954;
+  cursor: pointer;
+  transition: border-color 0.25s;
 }
 
-.add-button {
-  margin-top: auto;
-  text-align: center;
+.button-success:hover {
+  border-color: #1db954;
+}
+
+.button-success:focus,
+.button-success:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+.button-danger {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  color: #fff;
+  background-color: #bb1919;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+.button-danger:hover {
+  border-color: #bb1919;
+}
+
+.button-danger:focus,
+.button-danger:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
 }
