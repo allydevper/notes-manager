@@ -69,11 +69,11 @@ function App() {
 
   const handleAddNote = () => {
     if (selectedNote !== null && notes[selectedNote].content !== '') {
-      setNotes([...notes, { id: notes.length + 1, content: '', date: new Date().toLocaleString() }]);
-      setSelectedNote(notes.length);
+      setNotes([{ id: notes.length + 1, content: '', date: new Date().toLocaleString() }, ...notes]);
+      setSelectedNote(0);
     } else if (selectedNote == null) {
-      setNotes([...notes, { id: notes.length + 1, content: '', date: new Date().toLocaleString() }]);
-      setSelectedNote(notes.length);
+      setNotes([{ id: notes.length + 1, content: '', date: new Date().toLocaleString() }, ...notes]);
+      setSelectedNote(0);
     }
   };
 
