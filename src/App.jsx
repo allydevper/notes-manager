@@ -1,19 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 
 function App() {
-  const [notes, setNotes] = useState([
-    { id: 1, content: 'Buy groceries', date: new Date().toLocaleString() },
-    { id: 2, content: 'Read a book', date: new Date().toLocaleString() },
-    { id: 3, content: 'Go for a run', date: new Date().toLocaleString() },
-    { id: 4, content: 'Finish project report', date: new Date().toLocaleString() },
-    { id: 5, content: 'Call mom', date: new Date().toLocaleString() }
-  ]);
+  const [notes, setNotes] = useState([]);
+  const isFirstRender = useRef(true);
   const [selectedNote, setSelectedNote] = useState(null);
   const [filter, setFilter] = useState('');
 
+  useEffect(() => {
+    const storedNotes = localStorage.getItem('notes');
+    if (storedNotes) {
+      setNotes(JSON.parse(storedNotes));
+    }
+  }, []);
+
+  useEffect(() => {
+
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+
+    localStorage.setItem('notes', JSON.stringify(notes));
+  }, [notes]);
+
   const handleAddNote = () => {
-    debugger
     if (selectedNote !== null && notes[selectedNote].content !== '') {
       setNotes([...notes, { id: notes.length + 1, content: '', date: new Date().toLocaleString() }]);
       setSelectedNote(notes.length);
@@ -25,7 +36,7 @@ function App() {
 
   const handleDeleteNote = () => {
     if (selectedNote !== null) {
-      const updatedNotes = notes.filter((note, index) => index !== selectedNote);
+      const updatedNotes = notes.filter((_, index) => index !== selectedNote);
       setNotes(updatedNotes);
       setSelectedNote(null);
     }
