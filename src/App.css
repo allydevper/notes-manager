@@ -87,7 +87,6 @@ body {
 
 .note-body {
   flex-grow: 1;
-  padding: 20px;
   background-color: #121212;
   color: #eaeaea;
   height: calc(100vh - 150px);

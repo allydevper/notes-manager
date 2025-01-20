@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
+import Quill from 'quill';
 
 function App() {
+  const quillRefs = useRef([]);
   const [notes, setNotes] = useState([]);
   const isFirstRender = useRef(true);
   const [selectedNote, setSelectedNote] = useState(null);
@@ -15,14 +17,53 @@ function App() {
   }, []);
 
   useEffect(() => {
-
     if (isFirstRender.current) {
       isFirstRender.current = false;
       return;
     }
-
     localStorage.setItem('notes', JSON.stringify(notes));
   }, [notes]);
+
+  useEffect(() => {
+    if (selectedNote !== null) {
+      if (!quillRefs.current[selectedNote]) {
+
+        const quill = new Quill(`#editor-${selectedNote}`, {
+          theme: 'snow',
+          modules: {
+            toolbar: [
+              ['bold', 'italic', 'underline'],
+              ['link', 'image'],
+              [{ list: 'ordered' }, { list: 'bullet' }],
+              ['clean']
+            ]
+          }
+        });
+
+        quill.on('text-change', () => {
+          const content = quill.root.innerHTML;
+          if (selectedNote !== null) {
+            setNotes(prevNotes => {
+              const updatedNotes = [...prevNotes];
+              updatedNotes[selectedNote].content = content;
+              return updatedNotes;
+            });
+          }
+        });
+
+        quill.root.innerHTML = notes[selectedNote].content;
+        quillRefs.current[selectedNote] = quill;
+      }
+    }
+
+    return () => {
+      if (selectedNote !== null && quillRefs.current[selectedNote]) {
+        quillRefs.current[selectedNote].theme.modules.toolbar.container.remove()
+        quillRefs.current[selectedNote].off('text-change');
+        quillRefs.current[selectedNote] = null;
+      }
+    };
+  }, [selectedNote]);
 
   const handleAddNote = () => {
     if (selectedNote !== null && notes[selectedNote].content !== '') {
@@ -48,7 +89,7 @@ function App() {
     <div className="d-flex h-100">
       <div className="sidebar d-flex flex-column">
         <div className="search-bar mb-3">
-          <input type="text" className="form-control" placeholder="Search" onChange={(e) => setFilter(e.target.value)}></input>
+          <input type="text" className="form-control" placeholder="Search" onChange={(e) => setFilter(e.target.value)} />
         </div>
         <div className="note-list">
           {filteredNotes.map((note, index) => (
@@ -70,17 +111,7 @@ function App() {
         </div>
         <div className="note-body" style={{ flexGrow: 1 }}>
           {selectedNote !== null && (
-            <textarea
-              className="form-control"
-              placeholder="Contenido de la nota"
-              value={notes[selectedNote].content}
-              onChange={(e) => {
-                const updatedNotes = [...notes];
-                updatedNotes[selectedNote].content = e.target.value;
-                setNotes(updatedNotes);
-              }}
-              style={{ height: '100%', resize: 'none', backgroundColor: '#181818', color: 'white' }}
-            />
+            <div id={`editor-${selectedNote}`}></div>
           )}
         </div>
       </div>
