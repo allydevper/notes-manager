@@ -13,11 +13,22 @@ function App() {
   const [filter, setFilter] = useState('');
 
   const handleAddNote = () => {
-    // Logic to add a new note
+    debugger
+    if (selectedNote !== null && notes[selectedNote].content !== '') {
+      setNotes([...notes, { id: notes.length + 1, content: '', date: new Date().toLocaleString() }]);
+      setSelectedNote(notes.length);
+    } else if (selectedNote == null) {
+      setNotes([...notes, { id: notes.length + 1, content: '', date: new Date().toLocaleString() }]);
+      setSelectedNote(notes.length);
+    }
   };
 
   const handleDeleteNote = () => {
-    // Logic to delete the selected note
+    if (selectedNote !== null) {
+      const updatedNotes = notes.filter((note, index) => index !== selectedNote);
+      setNotes(updatedNotes);
+      setSelectedNote(null);
+    }
   };
 
   const filteredNotes = notes.filter(note => note.content.toLowerCase().includes(filter.toLowerCase()));
