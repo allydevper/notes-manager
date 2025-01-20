@@ -40,6 +40,8 @@ function App() {
           }
         });
 
+        quill.focus();
+
         quill.on('text-change', () => {
           const content = quill.root.innerHTML;
           if (selectedNote !== null) {
@@ -83,18 +85,18 @@ function App() {
     }
   };
 
-  const filteredNotes = notes.filter(note => note.content.toLowerCase().includes(filter.toLowerCase()));
+  const filteredNotes = notes.filter(note => note.content.replace(/<[^>]*>/g, '').toLowerCase().includes(filter.toLowerCase()));
 
   return (
     <div className="d-flex h-100">
       <div className="sidebar d-flex flex-column">
         <div className="search-bar mb-3">
-          <input type="text" className="form-control" placeholder="Search" onChange={(e) => setFilter(e.target.value)} />
+          <input type="text" className="form-control" placeholder="Buscar Nota" onChange={(e) => setFilter(e.target.value)} />
         </div>
         <div className="note-list">
           {filteredNotes.map((note, index) => (
             <div key={index} className={`note-item ${selectedNote === index ? 'selected' : ''}`} onClick={() => setSelectedNote(index)}>
-              <div className="note-title">{note.content.split('\n')[0]}</div>
+              <div className="note-title text-truncate">{note.content.replaceAll("</p>", '\n').replace(/<[^>]*>/g, '').split("\n").filter(f => f !== "")[0]}</div>
               <div className="note-date">{note.date}</div>
             </div>
           ))}
