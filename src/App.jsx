@@ -71,7 +71,7 @@ function App() {
 
     const notesNextId = notes.length == 0 ? 1 : notes[0].id + 1;
 
-    if (!selectedNote || notes.find(f => f.id == selectedNote).content.replace(/<[^>]*>/g, '') !== '') {
+    if (!selectedNote || (notes.find(f => f.id == selectedNote).content.replace(/<[^>]*>/g, '') !== '' && notes[0].content.replace(/<[^>]*>/g, '') !== '')) {
       setNotes([{ id: notesNextId, content: '', date: new Date().toLocaleString() }, ...notes]);
       setSelectedNote(notesNextId);
     }
