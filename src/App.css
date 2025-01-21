@@ -4,7 +4,7 @@
 
 body {
   margin: 0;
-  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-family: "Comfortaa", serif;
   background-color: #121212;
   color: #eaeaea;
   height: 100vh;
@@ -135,4 +135,23 @@ body {
 .button-danger:focus,
 .button-danger:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+/*Editor*/
+.ql-container.ql-snow {
+  border: 2px solid #282828;
+}
+
+.ql-toolbar.ql-snow {
+  border: 2px solid #282828;
+  background: white;
+}
+
+.ql-container {
+  font-family: "Comfortaa", serif;
+  font-size: 1.5rem;
+}
+
+.ql-editor {
+  background: #343a40;
 }
