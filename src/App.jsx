@@ -47,13 +47,13 @@ function App() {
           if (selectedNote !== null) {
             setNotes(prevNotes => {
               const updatedNotes = [...prevNotes];
-              updatedNotes.find(f=>f.id == selectedNote).content = content;
+              updatedNotes.find(f => f.id == selectedNote).content = content;
               return updatedNotes;
             });
           }
         });
 
-        quill.root.innerHTML = notes.find(f=>f.id == selectedNote).content;
+        quill.root.innerHTML = notes.find(f => f.id == selectedNote)?.content || '';
         quillRefs.current[selectedNote] = quill;
       }
     }
@@ -71,10 +71,7 @@ function App() {
 
     const notesNextId = notes.length == 0 ? 1 : notes[0].id + 1;
 
-    if (selectedNote !== null && notes.find(f=>f.id == selectedNote).content !== '') {
-      setNotes([{ id: notesNextId, content: '', date: new Date().toLocaleString() }, ...notes]);
-      setSelectedNote(notesNextId);
-    } else if (selectedNote == null) {
+    if (!selectedNote || notes.find(f => f.id == selectedNote).content.replace(/<[^>]*>/g, '') !== '') {
       setNotes([{ id: notesNextId, content: '', date: new Date().toLocaleString() }, ...notes]);
       setSelectedNote(notesNextId);
     }
@@ -82,7 +79,7 @@ function App() {
 
   const handleDeleteNote = () => {
     if (selectedNote !== null) {
-      const updatedNotes = notes.filter((_, index) => index !== selectedNote);
+      const updatedNotes = notes.filter((note) => note.id !== selectedNote);
       setNotes(updatedNotes);
       setSelectedNote(null);
     }
@@ -99,7 +96,7 @@ function App() {
         <div className="note-list">
           {filteredNotes.map((note) => (
             <div key={note.id} className={`note-item ${selectedNote === note.id ? 'selected' : ''}`} onClick={() => setSelectedNote(note.id)}>
-              <div className="note-title text-truncate">{note.content.replaceAll("</p>", '\n').replace(/<[^>]*>/g, '').split("\n").filter(f => f !== "")[0]}</div>
+              <div className="note-title text-truncate">{note.content.replaceAll("</p>", '\n').replace(/<[^>]*>/g, '').split("\n").find(f => f !== "") || ""}</div>
               <div className="note-date">{note.date}</div>
             </div>
           ))}
