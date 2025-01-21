@@ -37,8 +37,11 @@ function App() {
           theme: 'snow',
           modules: {
             toolbar: [
-              ['bold', 'italic', 'underline'],
-              ['link', 'image'],
+              ['bold', 'italic', 'underline'], 
+              [{ 'size': ['small', false, 'large', 'huge'] }],
+              [{ "color": [] }, { "background": [] }],
+              ["blockquote", "code-block"],
+              ["link", "image", "video"],
               [{ list: 'ordered' }, { list: 'bullet' }],
               ['clean']
             ]
