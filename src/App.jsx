@@ -60,7 +60,7 @@ function App() {
 
     return () => {
       if (selectedNote !== null && quillRefs.current[selectedNote]) {
-        quillRefs.current[selectedNote].theme.modules.toolbar.container.remove()
+        quillRefs.current[selectedNote].theme.modules.toolbar.container.remove();
         quillRefs.current[selectedNote].off('text-change');
         quillRefs.current[selectedNote] = null;
       }
@@ -70,12 +70,24 @@ function App() {
   const handleAddNote = () => {
     if (selectedNote !== null && notes[selectedNote].content !== '') {
       setNotes([{ id: notes.length + 1, content: '', date: new Date().toLocaleString() }, ...notes]);
-      setSelectedNote(0);
+      setSelectedNote(null);
+      setTimeout(() => {
+        setSelectedNote(0);
+      }, 0);
     } else if (selectedNote == null) {
       setNotes([{ id: notes.length + 1, content: '', date: new Date().toLocaleString() }, ...notes]);
-      setSelectedNote(0);
+      setSelectedNote(null);
+      setTimeout(() => {
+        setSelectedNote(0);
+      }, 0);
     }
   };
+
+  useEffect(() => {
+    if (selectedNote === 0) {
+      setSelectedNote(0);
+    }
+  }, [selectedNote]);
 
   const handleDeleteNote = () => {
     if (selectedNote !== null) {
