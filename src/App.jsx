@@ -47,13 +47,13 @@ function App() {
           if (selectedNote !== null) {
             setNotes(prevNotes => {
               const updatedNotes = [...prevNotes];
-              updatedNotes[selectedNote].content = content;
+              updatedNotes.find(f=>f.id == selectedNote).content = content;
               return updatedNotes;
             });
           }
         });
 
-        quill.root.innerHTML = notes[selectedNote].content;
+        quill.root.innerHTML = notes.find(f=>f.id == selectedNote).content;
         quillRefs.current[selectedNote] = quill;
       }
     }
@@ -68,26 +68,17 @@ function App() {
   }, [selectedNote]);
 
   const handleAddNote = () => {
-    if (selectedNote !== null && notes[selectedNote].content !== '') {
-      setNotes([{ id: notes.length + 1, content: '', date: new Date().toLocaleString() }, ...notes]);
-      setSelectedNote(null);
-      setTimeout(() => {
-        setSelectedNote(0);
-      }, 0);
+
+    const notesNextId = notes.length == 0 ? 1 : notes[0].id + 1;
+
+    if (selectedNote !== null && notes.find(f=>f.id == selectedNote).content !== '') {
+      setNotes([{ id: notesNextId, content: '', date: new Date().toLocaleString() }, ...notes]);
+      setSelectedNote(notesNextId);
     } else if (selectedNote == null) {
-      setNotes([{ id: notes.length + 1, content: '', date: new Date().toLocaleString() }, ...notes]);
-      setSelectedNote(null);
-      setTimeout(() => {
-        setSelectedNote(0);
-      }, 0);
+      setNotes([{ id: notesNextId, content: '', date: new Date().toLocaleString() }, ...notes]);
+      setSelectedNote(notesNextId);
     }
   };
-
-  useEffect(() => {
-    if (selectedNote === 0) {
-      setSelectedNote(0);
-    }
-  }, [selectedNote]);
 
   const handleDeleteNote = () => {
     if (selectedNote !== null) {
@@ -106,8 +97,8 @@ function App() {
           <input type="text" className="form-control" placeholder="Buscar Nota" onChange={(e) => setFilter(e.target.value)} />
         </div>
         <div className="note-list">
-          {filteredNotes.map((note, index) => (
-            <div key={index} className={`note-item ${selectedNote === index ? 'selected' : ''}`} onClick={() => setSelectedNote(index)}>
+          {filteredNotes.map((note) => (
+            <div key={note.id} className={`note-item ${selectedNote === note.id ? 'selected' : ''}`} onClick={() => setSelectedNote(note.id)}>
               <div className="note-title text-truncate">{note.content.replaceAll("</p>", '\n').replace(/<[^>]*>/g, '').split("\n").filter(f => f !== "")[0]}</div>
               <div className="note-date">{note.date}</div>
             </div>
