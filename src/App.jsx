@@ -42,6 +42,7 @@ function App() {
               [{ "color": [] }, { "background": [] }],
               ["blockquote", "code-block"],
               ["link", "image", "video"],
+              [{ "direction": "rtl" }, { "align": [] }],
               [{ list: 'ordered' }, { list: 'bullet' }],
               ['clean']
             ]
